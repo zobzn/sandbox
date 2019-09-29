@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      #a,
+      #b {
+        color: white;
+        text-align: center;
+        padding: 10px;
+        position: fixed;
+        width: 100px;
+        height: 20px;
+        left: 100px;
+      }
+      #a {
+        background-color: blue;
+        top: 20px;
+      }
+      #b {
+        background-color: red;
+        bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+      <defs>
+        <marker
+          id="arrowhead"
+          viewBox="0 0 10 10"
+          refX="3"
+          refY="5"
+          markerWidth="6"
+          markerHeight="6"
+          orient="auto"
+        >
+          <path d="M 0 0 L 10 5 L 0 10 z" />
+        </marker>
+      </defs>
+      <g
+        fill="none"
+        stroke="black"
+        stroke-width="2"
+        marker-end="url(#arrowhead)"
+      >
+        <path id="arrowLeft" />
+        <path id="arrowRight" />
+      </g>
+    </svg>
+    <div id="a">Div 1</div>
+    <div id="b">Div 2</div>
+    <script type="text/javascript">
+      var divA = document.querySelector("#a");
+      var divB = document.querySelector("#b");
+      var arrowLeft = document.querySelector("#arrowLeft");
+      var arrowRight = document.querySelector("#arrowRight");
+
+      var drawConnector = function() {
+        var posnALeft = {
+          x: divA.offsetLeft - 8,
+          y: divA.offsetTop + divA.offsetHeight / 2
+        };
+        var posnARight = {
+          x: divA.offsetLeft + divA.offsetWidth + 8,
+          y: divA.offsetTop + divA.offsetHeight / 2
+        };
+        var posnBLeft = {
+          x: divB.offsetLeft - 8,
+          y: divB.offsetTop + divA.offsetHeight / 2
+        };
+        var posnBRight = {
+          x: divB.offsetLeft + divB.offsetWidth + 8,
+          y: divB.offsetTop + divA.offsetHeight / 2
+        };
+        var dStrLeft =
+          "M" +
+          posnALeft.x +
+          "," +
+          posnALeft.y +
+          " " +
+          "C" +
+          (posnALeft.x - 100) +
+          "," +
+          posnALeft.y +
+          " " +
+          (posnBLeft.x - 100) +
+          "," +
+          posnBLeft.y +
+          " " +
+          posnBLeft.x +
+          "," +
+          posnBLeft.y;
+        arrowLeft.setAttribute("d", dStrLeft);
+        var dStrRight =
+          "M" +
+          posnBRight.x +
+          "," +
+          posnBRight.y +
+          " " +
+          "C" +
+          (posnBRight.x + 100) +
+          "," +
+          posnBRight.y +
+          " " +
+          (posnARight.x + 100) +
+          "," +
+          posnARight.y +
+          " " +
+          posnARight.x +
+          "," +
+          posnARight.y;
+        arrowRight.setAttribute("d", dStrRight);
+      };
+
+      $("#a, #b").draggable({
+        drag: function(event, ui) {
+          drawConnector();
+        }
+      });
+
+      drawConnector();
+    </script>
+  </body>
+</html>
